@@ -7,11 +7,17 @@ export default class Controller {
     
     
     async verify(req : VerifyDto, res: Response): Promise<Response>{
+        
         try{
             const validate = await _service.verify(req.body);
+            
+            if ( !validate ){
+                return res.status(403).json({message: 'Invalid token and key'})
+            }
+            
             return res.status(200).json(validate)
         }catch (err: any){
-            return res.status(400).json({message: err.message ? err.message : err});
+            return res.status(500).json({message: err.message ? err.message : err});
         }
     }
     
