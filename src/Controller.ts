@@ -1,18 +1,20 @@
 import { Request, Response } from 'express';
-import VerifyDto from './dto/VerifyDto';
+import { GenerateDto, GenerateForm } from './dto/GenerateDto';
+import { TokenDto, TokenForm } from './dto/TokenDto';
+import { VerifyDto, VerifyForm } from './dto/VerifyDto';
 
 import _service from './Service';
 
 export default class Controller {
     
     
-    async verify(req : VerifyDto, res: Response): Promise<Response>{
+    async verify(req : VerifyForm, res: Response): Promise<VerifyDto|Response>{
         
         try{
             const validate = await _service.verify(req.body);
             
             if ( !validate ){
-                return res.status(403).json({message: 'Invalid token and key'})
+                return res.status(403).json({message: 'Invalid token and secret.'})
             }
             
             return res.status(200).json(validate)
@@ -21,7 +23,7 @@ export default class Controller {
         }
     }
     
-    async token(req : Request, res: Response): Promise<Response>{
+    async token(req : TokenForm, res: Response): Promise<TokenDto|Response>{
         try{
             const token = await _service.token(req.body); 
             return res.status(200).json(token)
@@ -30,10 +32,10 @@ export default class Controller {
         }
     }
     
-    async generate(req : Request, res: Response): Promise<Response>{
+    async generate(req : GenerateForm, res: Response): Promise<GenerateDto|Response>{
         try{
-            const validate = await _service.generate(req.body);
-            return res.status(200).json({})
+            const result = await _service.generate(req.body);
+            return res.status(200).json(result)
         }catch (err: any){
             return res.status(400).json({message: err.message ? err.message : err});
         }

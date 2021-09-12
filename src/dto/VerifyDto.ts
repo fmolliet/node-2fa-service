@@ -1,8 +1,10 @@
-import { Request } from 'express';
-import VerifyRequestBody from '../models/VerifyRequestBody';
+import { Request,Response  } from 'express';
+import { VerifyRequest, VerifyResponse } from '../interfaces';
 
-interface VerifyDto extends Request {
-    body: VerifyRequestBody
+export interface VerifyDto extends Response {
+    body: VerifyResponse
 }
 
-export default VerifyDto;
+export interface VerifyForm extends Request {
+    body: VerifyRequest
+}

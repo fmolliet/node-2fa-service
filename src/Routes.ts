@@ -8,7 +8,7 @@ const routes = Router();
 
 routes.post('/verify', controller.verify)
     .post('/token', controller.token)
-    .get('/secret', controller.generate);
+    .post('/secret', controller.generate);
 
 routes.get('/health', (req, res)=>{ return res.json({status: "UP"}) })
 
